@@ -1,11 +1,16 @@
 $LOAD_PATH << "lib"
-require 'drink_data'
+require 'database'
 require 'menu'
 require 'sqlite3'
 
 menu = Menu.new
-find = Find.new
-input = menu.get_input
-data = menu.input_options(input)
-find.find_drinks(data)
-#puts "Thanks for using my App" if input == 5
+database = Database.new
+choice = 'y'
+while choice != 'n' or choice == 'no'
+  input = menu.get_input
+  data = menu.input_options(input)
+  database.find_drinks(data)
+  print "\nReturn to Main Menu? (y/n): "
+  choice = gets.chomp.downcase
+end
+puts "Thanks for using Ruby on the Rocks"

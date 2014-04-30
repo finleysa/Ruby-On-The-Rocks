@@ -3,7 +3,7 @@ class Menu
   end
 
   def display_menu
-    puts <<EOS
+    print <<EOS
          MAIN MENU
 ===========================
 1. Find a drink by name
@@ -19,11 +19,15 @@ EOS
   def input_options(input)
     case input
     when 1
-      puts "Input drink name:"
+      print "Input drink name: "
       drink = gets.chomp
+      puts
       return ["name", drink]
     when 2
       puts "Input ingredients:"
+      ingredients = gets.chomp
+      puts
+      return ["ingredients", ingredients]
     when 3
     when 4
     when 5
