@@ -1,2 +1,2 @@
-drink_recipes/
-*.sqlite3
+drink-recipes/
+/*.sqlite3
