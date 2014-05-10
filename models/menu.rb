@@ -29,12 +29,13 @@ EOS
       puts
       return ["ingredients", ingredients]
     when 3
-      print "Your Cocktail!\n---------------\n"
+      print "\nYour Cocktail!\n---------------\n"
       return ["cocktail"]
     when 4
-      print "Your Shot!\n---------------\n"
+      print "\nYour Shot!\n---------------\n"
       return ["shot"]
     when 5
+      #placeholder
     end
   end
 

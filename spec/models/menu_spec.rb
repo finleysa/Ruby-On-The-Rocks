@@ -1,8 +1,6 @@
 require "spec_helper"
 require "menu"
 
-
-
 describe "Menu Integration" do
   let(:menu_text) do
 <<EOS

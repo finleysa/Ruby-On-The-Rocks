@@ -1,7 +1,7 @@
 $LOAD_PATH << 'db'
 require 'sqlite3'
 
-class Database
+class Database < SQLite3::Database
 
   def initialize
   end
@@ -12,11 +12,11 @@ class Database
       if data_array[0] == "name"
         stm = db.prepare("select title from drink_table where title like '%#{data_array[1]}%' order by title limit 20")
       elsif data_array[0] == "ingredients"
-        stm = db.prepare("select title from mytable where ingredients like '%#{data_array[1]}%' order by title limit 10")
+        stm = db.prepare("select title from drink_table where ingredients like '%#{data_array[1]}%' order by title limit 10")
       elsif data_array[0] == "cocktail"
-        stm = db.prepare("select title, serve, ingredients from mytable where cat='Cocktails' order by random() limit 1")
+        stm = db.prepare("select title, serve, ingredients from drink_table where cat='Cocktails' order by random() limit 1")
       elsif data_array[0] == "shot"
-        stm = db.prepare("select title, serve, ingredients from mytable where cat='Shots & Shooters' order by random() limit 1")
+        stm = db.prepare("select title, serve, ingredients from drink_table where cat='Shots & Shooters' order by random() limit 1")
       end
       rs = stm.execute
 
@@ -34,5 +34,10 @@ class Database
       stm.close if stm
       db.close if db
     end
+  end
+  
+  def execute(statement, bind_vars = [])
+    super(statement, bind_vars)
+    puts "Added to Database"
   end
 end
