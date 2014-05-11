@@ -8,8 +8,8 @@ describe Drink do
       drink.name.should == "Hulk"
     end
     it "Should add ingredients" do
-      drink.add_ingredients("Vodka", "Orange Juice")
-      drink.ingredients.length.should == 2
+      drink.add_ingredients("Vodka, Orange Juice")
+      drink.ingredients.length.should == 1
     end
     it "should add mixing instructions" do
       drink.add_instructions("Mix that shiznit with a spoon!")

@@ -1,44 +1,65 @@
+$LOAD_PATH << 'lib'
 require 'database'
 
 class Drink
-  attr_accessor :name, :ingredients, :instructions
+  attr_accessor :title, :ingredients, :instructions, :cat, :method
+  attr_reader :id, :errors
   
-  def initialize(name)
-    @name = name
+  def initialize(title)
+    @title = title
+  end
+
+  def self.delete(title)
+    db = Database.new
+    statement = "delete from drink_table where title=(?)"
+    db.execute(statement, title)
   end
   
-   def self.find_by_name
-    statement = "select * from injuries where name = ?;"
-    create_instances(statement, name)[0]
+  def self.find_by_title(title)
+    statement = "select * from drink_table where title = ?;"
+    db = Database.new
+    db.execute(statement, title)
+  end
+ 
+  def add_method(arg)
+    @method = arg
   end
   
-  def add_ingredients(*args)
-    @ingredients = args
+  def add_category(arg)
+    @cat = arg
+  end
+  
+  def add_ingredients(arg)
+    @ingredients = arg
   end 
   
   def add_instructions(arg)
-    @instructions = arg
-  end
-  
-  def save
-    if self.valid?
-      statement = "Insert into drink_table (name) values (?);"
-      Database.execute(statement, name)
-      @id = Database.execute("select last_insert_rowid();")
-      true
-    else
-      false
-    end
+    @method = arg
   end
   
   def vaild?
-    if Drink.find_by_name(self.name)
-      @errors << "#{self.name} already exists."
+    if Drink.find_by_title(self.title)
+      @errors << "#{self.title} already exists."
     end
     @errors.empty?
   end
   
+  def save
+      db = Database.new
+      statement = "insert into drink_table (title, cat, ingredients, method) values(?,?,?,?);"
+      bound_vars = [@title, @cat, @ingredients, @method]
+      db.execute(statement, bound_vars)
+      @id = db.execute("select last_insert_rowid();")
+  end
+  
   def create_instances(statement, bind_vars = [])
-    
+    rows = Database.execute(statement, bind_vars)
+    results = []
+    rows.each do |row|
+      drink = Drink.new(row["title"])
+      drink.instance_variable_set(:@id, row["id"])
+      results << drink
+    end
+    results
   end
 end
