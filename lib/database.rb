@@ -55,7 +55,7 @@ class Database < SQLite3::Database
   def execute(statement, bind_vars = [])
     begin
       db = SQLite3::Database.open "drinklist.sqlite3"
-      db.execute(statement, bind_vars)
+      return db.execute(statement, bind_vars)
     ensure
       db.close
     end

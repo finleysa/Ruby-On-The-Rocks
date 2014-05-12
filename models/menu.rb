@@ -27,15 +27,45 @@ EOS
   def input_options(input)
     case input
     when 1
-      print "Input drink name: "
+      print "\nInput drink name: "
       drink = gets.chomp
       puts
       return ["name", drink]
     when 2
-      puts "Input ingredients:"
-      ingredients = gets.chomp
+      puts "\nInput ingredients:"
+      ingredients = gets.split(', ');
+      ing_array = []
+      for i in 0..ingredients.length-1
+        ing_array << "and ingredients like (?) "
+        ingredients[i].chomp!
+        ingredients[i] << "%"
+        ingredients[i].insert(0, '%')
+      end
+      ing_array[0] = "where ingredients like (?) " 
+      statement = "select title from drink_table "
+      ing_array.each do |ing|
+        statement << ing
+      end
+      statement << "limit 10"
+      db = Database.new
+      rs = db.execute(statement, ingredients)
       puts
-      return ["ingredients", ingredients]
+      j = 0
+      drink_array = []
+      rs.each do |row|
+        j = j + 1
+        puts "#{j} #{row[0]}"
+        drink_array << row[0]
+      end
+      print "\nWhich number would you like to see: "
+      answer = gets.chomp.to_i
+      statement = "select title, serve, ingredients, method from drink_table where title=(?)"
+      rs = db.execute(statement, drink_array[answer-1])
+      rs.each do |row|
+        puts row
+      end
+      return 0
+      #return ["ingredients", ingredients]
     when 3
       print "\nYour Cocktail!\n---------------\n"
       return ["cocktail"]
@@ -56,7 +86,7 @@ EOS
   2. Shot or Shooter
   3. Beer / Ale
   4. Non-Alcoholic
-  5. Other Drinks\n" 
+  5. Other Drinks\n"
           type = gets.chomp.to_i
           if (1..5).include?(type)
             drink_type = "Cocktail" if type == 1
@@ -81,7 +111,7 @@ EOS
         drink.add_serve(serve)
         print "\nSave this drink to the database? (y/n): "
         answer = gets.chomp.downcase
-        drink.save if answer == "y" || answer == "yes"      
+        drink.save if answer == "y" || answer == "yes"
         return 0
       else
         puts "Invalid name"
@@ -98,7 +128,7 @@ EOS
   2. Shot or Shooter
   3. Beer / Ale
   4. Non-Alcoholic
-  5. Other Drinks\n" 
+  5. Other Drinks\n"
         type = gets.chomp.to_i
         if (1..5).include?(type)
           drink_type = "Cocktail" if type == 1
@@ -123,9 +153,8 @@ EOS
       drink.add_serve(serve)
       print "\nUpdate this drink in the database? (y/n): "
       answer = gets.chomp.downcase
-      drink.update if answer == "y" || answer == "yes"      
+      drink.update if answer == "y" || answer == "yes"
       return 0
-      
     when 7
       print "\nName of drink: "
       drink_name = gets.chomp

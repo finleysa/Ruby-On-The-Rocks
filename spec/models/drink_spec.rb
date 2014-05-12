@@ -1,4 +1,6 @@
-require 'spec_helper'
+$LOAD_PATH << 'spec'
+
+require_relative '../spec_helper.rb'
 require 'drink'
 
 describe Drink do
@@ -14,6 +16,14 @@ describe Drink do
     it "should add mixing instructions" do
       drink.add_instructions("Mix that shiznit with a spoon!")
       drink.instructions.should == "Mix that shiznit with a spoon!"
+    end
+    it "should add a category" do
+      drink.add_category("Cocktail")
+      drink.cat.should == "Cocktail"
+    end
+    it "should add serving container" do
+      drink.add_serve("Mason jar")
+      drink.instructions.should == "Mason jar"
     end
   end
 end

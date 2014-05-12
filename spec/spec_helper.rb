@@ -1,3 +1,4 @@
+require 'rspec/expectations'
 $LOAD_PATH << "lib"
 $LOAD_PATH << "models"
 require "drink"

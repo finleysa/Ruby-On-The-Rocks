@@ -6,6 +6,27 @@ require 'database'
 require 'menu'
 require 'sqlite3'
 
+puts <<EOS
+                         /\\
+                        /\\~\\
+                       /  \\/
+      RUBY        ____/__________
+      ON         \\~~~/~__~~~~o~~/
+      THE         \\ / /__/_ o  /
+      ROCKS        \\  \\_/_ /\\ /
+                    \\(@)\\__\\//
+                     '------'
+  "Beer is proof        ||
+   that God wants       ||
+   us to be happy."     ||
+   ~Benjamin Franklin   ||
+                        ||
+                    .---||---.
+                    `-.____.-`
+
+             ENTER
+EOS
+gets
 menu = Menu.new
 database = Database.new
 choice = 'y'
