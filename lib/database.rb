@@ -29,7 +29,7 @@ class Database < SQLite3::Database
 
         name_array << row[0]
       end
-      
+
       if name_array.length == 0
         print "No drinks found! :(\n"
       elsif (data_array[0] == "name" or data_array[0] == "ingredients") and name_array.length > 0

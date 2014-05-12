@@ -37,6 +37,10 @@ class Drink
     @method = arg
   end
   
+  def add_serve(arg)
+    @serve = arg
+  end
+  
   def vaild?
     if Drink.find_by_title(self.title)
       @errors << "#{self.title} already exists."
@@ -45,11 +49,19 @@ class Drink
   end
   
   def save
-      db = Database.new
-      statement = "insert into drink_table (title, cat, ingredients, method) values(?,?,?,?);"
-      bound_vars = [@title, @cat, @ingredients, @method]
-      db.execute(statement, bound_vars)
-      @id = db.execute("select last_insert_rowid();")
+    db = Database.new
+    statement = "insert into drink_table (title, cat, ingredients, serve, method) values(?,?,?,?,?);"
+    bound_vars = [@title, @cat, @ingredients, @serve, @method]
+    db.execute(statement, bound_vars)
+    @id = db.execute("select last_insert_rowid();")
+  end
+  
+  def update
+    db = Database.new
+    statement = "update drink_table set title=(?), cat=(?), ingredients=(?), serve=(?), method=(?) where title=(?)"
+    bound_vars = [@title, @cat, @ingredients, @serve, @method, @title]
+    db.execute(statement, bound_vars)
+    @id = db.execute("select last_insert_rowid();")
   end
   
   def create_instances(statement, bind_vars = [])
